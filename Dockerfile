@@ -1,0 +1,17 @@
+FROM node:alpine 
+
+WORKDIR /usr/app
+
+ENV DB_HOST $DB_HOST
+ENV DB_PORT $PORT
+ENV DB_USER $DB_USER
+ENV DB_NAME $DB_NAME
+ENV DB_PASSWORD $DB_PASSWORD
+ENV DB_LOGGING $DB_LOGGING
+
+COPY package.json .
+COPY yarn.lock .
+
+RUN yarn
+
+COPY . .
