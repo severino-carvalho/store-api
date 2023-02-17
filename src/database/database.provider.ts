@@ -2,7 +2,7 @@ import { DynamicModule } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { ConnectionOptions } from 'typeorm';
+import { DataSourceOptions } from 'typeorm';
 
 import { Environment } from '../common/enum/environment.enum';
 
@@ -22,7 +22,7 @@ export const DatabaseProvider: DynamicModule = TypeOrmModule.forRootAsync({
       autoLoadEntities: true,
       synchronize: isDevelopmentEnvironment,
       logging: config.get('DB_LOINGING'),
-    } as ConnectionOptions;
+    } as DataSourceOptions;
 
     return dbConfig;
   },
