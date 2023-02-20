@@ -1,18 +1,14 @@
-version: '3.7'
-
+version: '3.8'
 services:
   db:
-    image: postgres:latest
-    container_name: db-store
-    restart: always
-    environment:
-      POSTGRES_DB: ${DB_NAME}
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-    volumes:
-      - 'pgdata:/var/lib/postgresql/data'
+    image: postgres:13
     ports:
       - 5432:5432
-volumes:
-  pgdata:
-    name: pgdata-store
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: db-store-api
+    networks:
+      - store-api
+networks:
+  store-api:
