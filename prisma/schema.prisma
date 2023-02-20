@@ -10,49 +10,42 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id         Int      @id @default(autoincrement())
-  name       String
-  email      String   @unique
-  password   String
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt()
-
-  @@map("users")
-}
-
 model Product {
-  id          Int                 @id @default(autoincrement())
-  name        String
-  price       Decimal
-  brand       String
-  description String
-  categories  CategoriesOnPosts[]
-  created_at  DateTime            @default(now())
-  updated_at  DateTime            @updatedAt()
+  id Int @id @default(autoincrement())
+
+  name  String
+  price Int
+
+  description String?
+  image       String?
+
+  categories CategoriesOnProducts[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   @@map("products")
 }
 
 model Category {
-  id         Int                 @id @default(autoincrement())
-  name       String              @unique
-  product_id Int
-  posts      CategoriesOnPosts[]
-  created_at DateTime            @default(now())
-  updated_at DateTime            @updatedAt()
+  id   Int    @id @default(autoincrement())
+  name String
+
+  products CategoriesOnProducts[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   @@map("categories")
 }
 
-model CategoriesOnPosts {
-  product     Product  @relation(fields: [product_id], references: [id])
-  product_id  Int
-  category    Category @relation(fields: [category_id], references: [id])
+model CategoriesOnProducts {
   category_id Int
-  created_by  String
-  created_at  DateTime @default(now())
-  updated_at  DateTime @updatedAt()
+  category    Category @relation(fields: [category_id], references: [id])
 
-  @@id([product_id, category_id])
+  product_id Int
+  product    Product @relation(fields: [product_id], references: [id])
+
+  @@id([category_id, product_id])
+  @@map("categories_on_product")
 }
