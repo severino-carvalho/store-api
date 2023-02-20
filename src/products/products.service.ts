@@ -47,6 +47,7 @@ export class ProductsService {
         categories: categories && {
           createMany: {
             data: categories.map((id) => ({ category_id: id })),
+            skipDuplicates: true,
           },
         },
       },
