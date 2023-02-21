@@ -41,6 +41,41 @@ export class CategoriesService {
     if (!this.verifyCategoryExist(id))
       throw new NotFoundException('Resource not found.');
 
+    const products = await this.prisma.product.findMany({
+      where: { categories: { some: { category: { id } } } },
+      include: {
+        categories: true,
+      },
+    });
+
+    products.map(
+      async ({ name, price, description, image, categories, ...product }) => {
+        await this.prisma.categoriesOnProducts.delete({
+          where: {
+            category_id_product_id: {
+              category_id: id,
+              product_id: product.id,
+            },
+          },
+        });
+
+        await this.prisma.product.update({
+          where: { id: product.id },
+          data: {
+            name,
+            price,
+            description,
+            image,
+            categories: categories && {
+              deleteMany: {
+                category_id: id,
+              },
+            },
+          },
+        });
+      },
+    );
+
     return await this.prisma.category.delete({ where: { id } });
   }
 
