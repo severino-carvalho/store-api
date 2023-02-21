@@ -10,23 +10,18 @@ export class ProductsService {
 
   async findAll(): Promise<Product[]> {
     return await this.prisma.product.findMany({
-      include: {
-        categories: true,
-      },
+      include: { categories: true },
     });
   }
 
   async findOne(id: number): Promise<Product> {
-    const product = await this.prisma.product.findUnique({
-      where: {
-        id,
-      },
-      include: {
-        categories: true,
-      },
-    });
+    if (!this.verifyProductExist(id))
+      throw new NotFoundException('Resource not found.');
 
-    if (!product) throw new NotFoundException('Resource not found');
+    const product = await this.prisma.product.findUnique({
+      where: { id },
+      include: { categories: true },
+    });
 
     return product;
   }
@@ -51,9 +46,7 @@ export class ProductsService {
           },
         },
       },
-      include: {
-        categories: true,
-      },
+      include: { categories: true },
     });
   }
 
@@ -61,11 +54,8 @@ export class ProductsService {
     id: number,
     { name, price, description, categories, image }: UpdateProductDto,
   ): Promise<Product> {
-    const productExist = await this.prisma.product.findUnique({
-      where: { id },
-    });
-
-    if (!productExist) throw new NotFoundException('Resource not found.');
+    if (!this.verifyProductExist(id))
+      throw new NotFoundException('Resource not found.');
 
     return await this.prisma.product.update({
       where: { id },
@@ -81,21 +71,22 @@ export class ProductsService {
           },
         },
       },
-      include: {
-        categories: true,
-      },
+      include: { categories: true },
     });
   }
 
   async remove(id: number): Promise<Product> {
-    const productExist = await this.prisma.product.findUnique({
-      where: {
-        id,
-      },
-    });
-
-    if (!productExist) throw new NotFoundException('Resource not found.');
+    if (!this.verifyProductExist(id))
+      throw new NotFoundException('Resource not found.');
 
     return await this.prisma.product.delete({ where: { id } });
+  }
+
+  private async verifyProductExist(id: number): Promise<boolean> {
+    const categoryExist = await this.prisma.category.findUnique({
+      where: { id },
+    });
+
+    return !!categoryExist;
   }
 }

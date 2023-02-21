@@ -13,7 +13,7 @@ export class CategoriesService {
   }
 
   async findOne(id: number): Promise<Category> {
-    if (!this.verifyCategoryExists(id))
+    if (!this.verifyCategoryExist(id))
       throw new NotFoundException('Resource not found.');
 
     return await this.prisma.category.findUnique({
@@ -28,23 +28,23 @@ export class CategoriesService {
   }
 
   async update(id: number, { name }: UpdateCategoryDto) {
-    if (!this.verifyCategoryExists(id))
+    if (!this.verifyCategoryExist(id))
       throw new NotFoundException('Resource not found.');
 
     return await this.prisma.category.update({
-      where: { id },
       data: { name },
+      where: { id },
     });
   }
 
   async remove(id: number) {
-    if (!this.verifyCategoryExists(id))
+    if (!this.verifyCategoryExist(id))
       throw new NotFoundException('Resource not found.');
 
     return await this.prisma.category.delete({ where: { id } });
   }
 
-  private async verifyCategoryExists(id: number) {
+  private async verifyCategoryExist(id: number) {
     const categoryExist = await this.prisma.category.findUnique({
       where: { id },
     });
