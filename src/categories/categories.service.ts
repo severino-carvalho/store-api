@@ -1,26 +1,54 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
+import { Category } from '@prisma/client';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class CategoriesService {
-  create(createCategoryDto: CreateCategoryDto) {
-    return 'This action adds a new category';
+  constructor(private readonly prisma: PrismaService) {}
+
+  async findAll(): Promise<Category[]> {
+    return await this.prisma.category.findMany();
   }
 
-  findAll() {
-    return `This action returns all categories`;
+  async findOne(id: number): Promise<Category> {
+    if (!this.verifyCategoryExists(id))
+      throw new NotFoundException('Resource not found.');
+
+    return await this.prisma.category.findUnique({
+      where: { id },
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} category`;
+  async create({ name }: CreateCategoryDto) {
+    return await this.prisma.category.create({
+      data: { name },
+    });
   }
 
-  update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    return `This action updates a #${id} category`;
+  async update(id: number, { name }: UpdateCategoryDto) {
+    if (!this.verifyCategoryExists(id))
+      throw new NotFoundException('Resource not found.');
+
+    return await this.prisma.category.update({
+      where: { id },
+      data: { name },
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} category`;
+  async remove(id: number) {
+    if (!this.verifyCategoryExists(id))
+      throw new NotFoundException('Resource not found.');
+
+    return await this.prisma.category.delete({ where: { id } });
+  }
+
+  private async verifyCategoryExists(id: number) {
+    const categoryExist = await this.prisma.category.findUnique({
+      where: { id },
+    });
+
+    return !!categoryExist;
   }
 }
