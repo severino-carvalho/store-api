@@ -15,7 +15,7 @@ export class ProductsService {
   }
 
   async findOne(id: number): Promise<Product> {
-    if (!this.verifyProductExist(id))
+    if (!(await this.verifyProductExist(id)))
       throw new NotFoundException('Resource not found.');
 
     const product = await this.prisma.product.findUnique({
@@ -33,6 +33,8 @@ export class ProductsService {
     image,
     categories,
   }: CreateProductDto): Promise<Product> {
+    await this.verifyCategoriesExist(categories);
+
     return this.prisma.product.create({
       data: {
         name,
@@ -54,7 +56,9 @@ export class ProductsService {
     id: number,
     { name, price, description, categories, image }: UpdateProductDto,
   ): Promise<Product> {
-    if (!this.verifyProductExist(id))
+    await this.verifyCategoriesExist(categories);
+
+    if (!(await this.verifyProductExist(id)))
       throw new NotFoundException('Resource not found.');
 
     return await this.prisma.product.update({
@@ -76,17 +80,31 @@ export class ProductsService {
   }
 
   async remove(id: number): Promise<Product> {
-    if (!this.verifyProductExist(id))
+    if (!(await this.verifyProductExist(id)))
       throw new NotFoundException('Resource not found.');
 
     return await this.prisma.product.delete({ where: { id } });
   }
 
   private async verifyProductExist(id: number): Promise<boolean> {
-    const categoryExist = await this.prisma.category.findUnique({
+    const categoryExist = await this.prisma.product.findUnique({
       where: { id },
     });
 
     return !!categoryExist;
+  }
+
+  private async verifyCategoriesExist(categories: number[]): Promise<void> {
+    const categoryResult = await Promise.all(
+      categories.map(async (id) => {
+        return await this.prisma.category.findUnique({ where: { id } });
+      }),
+    );
+
+    categoryResult.forEach((category) => {
+      if (!category) {
+        throw new NotFoundException('Category not found.');
+      }
+    });
   }
 }
