@@ -19,6 +19,7 @@ model Product {
   created_at  DateTime               @default(now())
   updated_at  DateTime               @updatedAt
   categories  CategoriesOnProducts[]
+  carts       ProductsOnCarts[]
 
   @@map("products")
 }
@@ -41,4 +42,27 @@ model CategoriesOnProducts {
 
   @@id([category_id, product_id])
   @@map("categories_on_product")
+}
+
+model Cart {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  products ProductsOnCarts[]
+
+  @@map("cart")
+}
+
+model ProductsOnCarts {
+  product_id Int
+  product    Product @relation(fields: [product_id], references: [id])
+
+  cart_id Int
+  cart    Cart @relation(fields: [cart_id], references: [id])
+
+  quantity Int @default(1)
+
+  @@id([product_id, cart_id])
+  @@map("product_on_carts")
 }
