@@ -16,7 +16,7 @@ export class ProductsService {
 
   async findOne(id: number): Promise<Product> {
     if (!(await this.verifyProductExist(id)))
-      throw new NotFoundException('Resource not found.');
+      throw new NotFoundException('Product does not exist.');
 
     const product = await this.prisma.product.findUnique({
       where: { id },
@@ -59,7 +59,7 @@ export class ProductsService {
     await this.verifyCategoriesExist(categories);
 
     if (!(await this.verifyProductExist(id)))
-      throw new NotFoundException('Resource not found.');
+      throw new NotFoundException('Product does not exist.');
 
     return await this.prisma.product.update({
       where: { id },
