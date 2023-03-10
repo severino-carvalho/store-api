@@ -1,5 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 
+import { hashSync } from 'bcrypt';
+
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -21,17 +23,56 @@ export class UsersService {
   }
 
   async create({ name, email, password }: CreateUserDto) {
+    await this.validateUser(email);
+
+    password = this.hashSync(password, 10);
+
     return await this.prisma.user.create({
       data: { name, email, password },
       include: { cart: true },
     });
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: number, { name, email, password }: UpdateUserDto) {
+    await this.validateUser(email, id);
+
+    password = this.hashSync(password, 10);
+
+    return await this.prisma.user.update({
+      where: { id },
+      data: {
+        name,
+        email,
+        password,
+      },
+      include: { cart: true },
+    });
   }
 
   async remove(id: number) {
-    return `This action removes a #${id} user`;
+    const userExists = await this.prisma.user.findFirst({ where: { id } });
+
+    if (!userExists) throw new NotFoundException('User not exists.');
+
+    return await this.prisma.user.delete({ where: { id } });
+  }
+
+  private async validateUser(email: string, id?: number) {
+    const userEmailExists = await this.prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (userEmailExists && id !== userEmailExists.id)
+      throw new NotFoundException('Email address already exists.');
+
+    if (id) {
+      const userExists = await this.prisma.user.findFirst({ where: { id } });
+
+      if (!userExists) throw new NotFoundException('User not exists.');
+    }
+  }
+
+  private hashSync(password: string, salt: number) {
+    return hashSync(password, salt);
   }
 }
