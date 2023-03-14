@@ -10,12 +10,15 @@ import {
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @Controller('categories')
+@ApiTags('categories')
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
   @Get()
+  @ApiOperation({ summary: 'List all categories.' })
   findAll() {
     try {
       return this.categoriesService.findAll();
@@ -23,6 +26,7 @@ export class CategoriesController {
   }
 
   @Get(':id')
+  @ApiOperation({ summary: 'List one category by id.' })
   findOne(@Param('id') id: string) {
     try {
       return this.categoriesService.findOne(+id);
@@ -30,6 +34,7 @@ export class CategoriesController {
   }
 
   @Post()
+  @ApiOperation({ summary: 'Create a new category.' })
   create(@Body() createCategoryDto: CreateCategoryDto) {
     try {
       return this.categoriesService.create(createCategoryDto);
@@ -37,6 +42,7 @@ export class CategoriesController {
   }
 
   @Patch(':id')
+  @ApiOperation({ summary: 'Update one category.' })
   update(
     @Param('id') id: string,
     @Body() updateCategoryDto: UpdateCategoryDto,
@@ -47,6 +53,7 @@ export class CategoriesController {
   }
 
   @Delete(':id')
+  @ApiOperation({ summary: 'Delete one category.' })
   remove(@Param('id') id: string) {
     try {
       return this.categoriesService.remove(+id);
