@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsInt } from 'class-validator';
 
-export class UpdateCartDto {
+export class DeleteCartDto {
   @IsInt()
   @ApiProperty()
   product_id: number;
