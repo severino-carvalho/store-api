@@ -1,8 +1,14 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 
 import { PrismaService } from 'src/prisma/prisma.service';
 import { ProductsService } from 'src/products/products.service';
 import { UpdateCartDto } from './dto/update-cart.dto';
+import { ProductsOnCarts } from '@prisma/client';
+import { DeleteCartDto } from './dto';
 
 @Injectable()
 export class CartService {
@@ -53,8 +59,24 @@ export class CartService {
     });
   }
 
-  async deleteFromCart(user_id: number, updateCartDto: UpdateCartDto) {
-    return ``;
+  async deleteFromCart(user_id: number, { product_id }: DeleteCartDto) {
+    const cart = await this.ifProductExistsInCart(user_id, product_id);
+
+    if (!cart) {
+      throw new NotFoundException('Product not found in cart');
+    }
+
+    return await this.prisma.cart.update({
+      where: { user_id },
+      data: {
+        products: {
+          delete: {
+            product_id_cart_id: { cart_id: cart.id, product_id: product_id },
+          },
+        },
+      },
+      include: { products: true },
+    });
   }
 
   private async ifProductExistsInCart(user_id: number, product_id: number) {
@@ -71,5 +93,12 @@ export class CartService {
     const productExists = await this.productService.findOne(product_id);
 
     return !!productExists;
+  }
+
+  private async getProductQuantity(
+    product_id: number,
+    products: ProductsOnCarts[],
+  ) {
+    return products.find((p) => p.product_id === product_id).quantity;
   }
 }
