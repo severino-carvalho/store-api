@@ -23,7 +23,7 @@ export class CartService {
       include: { products: true },
     });
 
-    if (!cart) throw new NotFoundException('User not found.');
+    if (!cart) throw new NotFoundException('User cart not found.');
 
     return cart;
   }
