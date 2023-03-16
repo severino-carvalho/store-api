@@ -28,7 +28,14 @@ export class UsersService {
     password = this.hashSync(password, 10);
 
     return await this.prisma.user.create({
-      data: { name, email, password },
+      data: {
+        name,
+        email,
+        password,
+        cart: {
+          create: {},
+        },
+      },
       include: { cart: true },
     });
   }
