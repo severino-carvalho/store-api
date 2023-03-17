@@ -1,10 +1,20 @@
-import { Controller, Get, Body, Param, Delete, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
 
-import { CartService } from './cart.service';
-import { UpdateCartDto } from './dto/update-cart.dto';
+import { AuthGuard } from '@nestjs/passport';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { CartService } from './cart.service';
 import { DeleteCartDto } from './dto';
+import { UpdateCartDto } from './dto/update-cart.dto';
 
+@UseGuards(AuthGuard('jwt'))
 @Controller('carts')
 @ApiTags('carts')
 export class CartController {
