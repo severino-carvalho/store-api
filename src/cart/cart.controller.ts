@@ -3,6 +3,7 @@ import { Controller, Get, Body, Param, Delete, Put } from '@nestjs/common';
 import { CartService } from './cart.service';
 import { UpdateCartDto } from './dto/update-cart.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { DeleteCartDto } from './dto';
 
 @Controller('carts')
 @ApiTags('carts')
@@ -28,8 +29,8 @@ export class CartController {
   @ApiOperation({ summary: 'Delete one product of cart by id' })
   async deleteFromCart(
     @Param('id') user_id: string,
-    @Body() updateCartDto: UpdateCartDto,
+    @Body() deleteCartDto: DeleteCartDto,
   ) {
-    return await this.cartService.deleteFromCart(+user_id, updateCartDto);
+    return await this.cartService.deleteFromCart(+user_id, deleteCartDto);
   }
 }
