@@ -1,16 +1,18 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  UseGuards,
 } from '@nestjs/common';
-import { ProductsService } from './products.service';
+import { AuthGuard } from '@nestjs/passport';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ProductsService } from './products.service';
 
 @Controller('products')
 @ApiTags('products')
@@ -33,6 +35,7 @@ export class ProductsController {
     } catch (error) {}
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Post()
   @ApiOperation({ summary: 'Create a new product.' })
   create(@Body() createProductDto: CreateProductDto) {
@@ -41,6 +44,7 @@ export class ProductsController {
     } catch (error) {}
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Patch(':id')
   @ApiOperation({ summary: 'Update one product.' })
   update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
@@ -49,6 +53,7 @@ export class ProductsController {
     } catch (error) {}
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Delete(':id')
   @ApiOperation({ summary: 'Delete one product.' })
   remove(@Param('id') id: string) {
