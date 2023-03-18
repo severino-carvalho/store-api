@@ -17,21 +17,26 @@ model User {
   password   String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
-  cart       Cart?
+
+  cart Cart?
+
+  role Role @default(USER)
 
   @@map("users")
 }
 
 model Product {
-  id          Int                    @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   name        String
   price       Float
   description String?
   image       String?
-  created_at  DateTime               @default(now())
-  updated_at  DateTime               @updatedAt
-  categories  CategoriesOnProducts[]
-  carts       ProductsOnCarts[]
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  categories CategoriesOnProducts[]
+
+  carts ProductsOnCarts[]
 
   @@map("products")
 }
@@ -80,4 +85,9 @@ model ProductsOnCarts {
 
   @@id([product_id, cart_id])
   @@map("product_on_carts")
+}
+
+enum Role {
+  USER
+  ADMIN
 }
