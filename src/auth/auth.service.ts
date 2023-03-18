@@ -23,7 +23,8 @@ export class AuthService {
     let user: User;
 
     try {
-      user = await this.prisma.user.findFirstOrThrow({ where: { email } });
+      user = await this.prisma.user.findFirst({ where: { email } });
+      if (!user) throw new Error();
     } catch (error) {
       return null;
     }
