@@ -9,13 +9,14 @@ import {
 } from '@nestjs/common';
 
 import { AuthGuard } from '@nestjs/passport';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CartService } from './cart.service';
 import { DeleteCartDto } from './dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
 
 @UseGuards(AuthGuard('jwt'))
 @Controller('carts')
+@ApiBearerAuth()
 @ApiTags('carts')
 export class CartController {
   constructor(private readonly cartService: CartService) {}
