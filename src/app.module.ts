@@ -14,6 +14,7 @@ import { UsersModule } from './users/users.module';
     UsersModule,
     AuthModule,
   ],
+  providers: [ConfigService],
 })
 export class AppModule {
   static port: string;
