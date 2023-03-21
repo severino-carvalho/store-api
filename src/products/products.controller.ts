@@ -8,10 +8,9 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
+import { JwtGuard } from 'src/security/authorization/guards';
+import { CreateProductDto, UpdateProductDto } from './dto/';
 import { ProductsService } from './products.service';
 
 @Controller('products')
@@ -21,44 +20,47 @@ export class ProductsController {
 
   @Get()
   @ApiOperation({ summary: 'List all products.' })
-  findAll() {
+  async findAll() {
     try {
-      return this.productsService.findAll();
+      return await this.productsService.findAll();
     } catch (error) {}
   }
 
   @Get(':id')
   @ApiOperation({ summary: 'List one product of id.' })
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string) {
     try {
-      return this.productsService.findOne(+id);
+      return await this.productsService.findOne(+id);
     } catch (error) {}
   }
 
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(JwtGuard)
   @Post()
   @ApiOperation({ summary: 'Create a new product.' })
-  create(@Body() createProductDto: CreateProductDto) {
+  async create(@Body() createProductDto: CreateProductDto) {
     try {
-      return this.productsService.create(createProductDto);
+      return await this.productsService.create(createProductDto);
     } catch (error) {}
   }
 
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(JwtGuard)
   @Patch(':id')
   @ApiOperation({ summary: 'Update one product.' })
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
+  async update(
+    @Param('id') id: string,
+    @Body() updateProductDto: UpdateProductDto,
+  ) {
     try {
-      return this.productsService.update(+id, updateProductDto);
+      return await this.productsService.update(+id, updateProductDto);
     } catch (error) {}
   }
 
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(JwtGuard)
   @Delete(':id')
   @ApiOperation({ summary: 'Delete one product.' })
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string) {
     try {
-      return this.productsService.remove(+id);
+      return await this.productsService.remove(+id);
     } catch (error) {}
   }
 }
