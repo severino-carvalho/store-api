@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { CartModule } from './cart/cart.module';
 import { CategoriesModule } from './categories/categories.module';
 import { ProductsModule } from './products/products.module';
@@ -14,4 +15,9 @@ import { UsersModule } from './users/users.module';
     AuthModule,
   ],
 })
-export class AppModule {}
+export class AppModule {
+  static port: string;
+  constructor(configService: ConfigService) {
+    AppModule.port = configService.get('PORT');
+  }
+}
