@@ -8,8 +8,8 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { JwtGuard } from 'src/security/guards';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersService } from './users.service';
@@ -19,14 +19,14 @@ import { UsersService } from './users.service';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(JwtGuard)
   @Get()
   @ApiOperation({ summary: 'List all users.' })
   async findAll() {
     return await this.usersService.findAll();
   }
 
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(JwtGuard)
   @Get(':id')
   @ApiOperation({ summary: 'List one user of id.' })
   async findOne(@Param('id') id: string) {
@@ -39,14 +39,14 @@ export class UsersController {
     return await this.usersService.create(createUserDto);
   }
 
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(JwtGuard)
   @Patch(':id')
   @ApiOperation({ summary: 'Update one user.' })
   async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return await this.usersService.update(+id, updateUserDto);
   }
 
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(JwtGuard)
   @Delete(':id')
   @ApiOperation({ summary: 'Remove one user.' })
   async remove(@Param('id') id: string) {

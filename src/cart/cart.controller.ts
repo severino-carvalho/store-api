@@ -8,13 +8,13 @@ import {
   UseGuards,
 } from '@nestjs/common';
 
-import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { JwtGuard } from 'src/security/guards';
 import { CartService } from './cart.service';
 import { DeleteCartDto } from './dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
 
-@UseGuards(AuthGuard('jwt'))
+@UseGuards(JwtGuard)
 @Controller('carts')
 @ApiBearerAuth()
 @ApiTags('carts')

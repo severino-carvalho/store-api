@@ -8,13 +8,13 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { JwtGuard } from 'src/security/guards';
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 
-@UseGuards(AuthGuard('jwt'))
+@UseGuards(JwtGuard)
 @Controller('categories')
 @ApiBearerAuth()
 @ApiTags('categories')

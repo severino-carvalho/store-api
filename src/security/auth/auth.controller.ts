@@ -1,6 +1,6 @@
 import { Controller, Post, Req, UseGuards } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { LocalGuard } from '../guards';
 import { AuthService } from './auth.service';
 import { AuthLoginDTO } from './dto';
 
@@ -9,7 +9,7 @@ import { AuthLoginDTO } from './dto';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @UseGuards(AuthGuard('local'))
+  @UseGuards(LocalGuard)
   @Post('login')
   @ApiBody({ type: AuthLoginDTO })
   @ApiOperation({ summary: 'Route for login.' })
