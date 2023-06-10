@@ -6,10 +6,8 @@ import {
   Param,
   Patch,
   Post,
-  UseGuards,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { JwtGuard } from 'src/security/guards';
 import { CreateProductDto, UpdateProductDto } from './dto/';
 import { ProductsService } from './products.service';
 
@@ -34,7 +32,6 @@ export class ProductsController {
     } catch (error) {}
   }
 
-  @UseGuards(JwtGuard)
   @Post()
   @ApiOperation({ summary: 'Create a new product.' })
   async create(@Body() createProductDto: CreateProductDto) {
@@ -43,7 +40,6 @@ export class ProductsController {
     } catch (error) {}
   }
 
-  @UseGuards(JwtGuard)
   @Patch(':id')
   @ApiOperation({ summary: 'Update one product.' })
   async update(
@@ -55,7 +51,6 @@ export class ProductsController {
     } catch (error) {}
   }
 
-  @UseGuards(JwtGuard)
   @Delete(':id')
   @ApiOperation({ summary: 'Delete one product.' })
   async remove(@Param('id') id: string) {

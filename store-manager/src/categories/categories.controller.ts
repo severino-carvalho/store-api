@@ -14,7 +14,6 @@ import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 
-@UseGuards(JwtGuard)
 @Controller('categories')
 @ApiBearerAuth()
 @ApiTags('categories')

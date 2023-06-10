@@ -19,18 +19,20 @@ import { UsersService } from './users.service';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @UseGuards(JwtGuard)
   @Get()
   @ApiOperation({ summary: 'List all users.' })
   async findAll() {
     return await this.usersService.findAll();
   }
 
-  @UseGuards(JwtGuard)
   @Get(':id')
   @ApiOperation({ summary: 'List one user of id.' })
   async findOne(@Param('id') id: string) {
-    return await this.usersService.findOne(+id);
+    try {
+      return await this.usersService.findOne(+id);
+    } catch (error) {
+      return { error: error.message };
+    }
   }
 
   @Post()
@@ -39,17 +41,19 @@ export class UsersController {
     return await this.usersService.create(createUserDto);
   }
 
-  @UseGuards(JwtGuard)
   @Patch(':id')
   @ApiOperation({ summary: 'Update one user.' })
   async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return await this.usersService.update(+id, updateUserDto);
   }
 
-  @UseGuards(JwtGuard)
   @Delete(':id')
   @ApiOperation({ summary: 'Remove one user.' })
   async remove(@Param('id') id: string) {
-    return await this.usersService.remove(+id);
+    try {
+      return await this.usersService.remove(+id);
+    } catch (error) {
+      return { error: error.message };
+    }
   }
 }

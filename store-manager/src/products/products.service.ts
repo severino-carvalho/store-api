@@ -83,7 +83,10 @@ export class ProductsService {
     if (!(await this.verifyProductExist(id)))
       throw new NotFoundException('Resource not found.');
 
-    return await this.prisma.product.delete({ where: { id } });
+    const prod = await this.prisma.product.delete({ where: { id } });
+    console.log(prod);
+
+    return prod;
   }
 
   private async verifyProductExist(id: number): Promise<boolean> {

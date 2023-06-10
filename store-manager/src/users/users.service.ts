@@ -57,10 +57,14 @@ export class UsersService {
   }
 
   async remove(id: number) {
-    const userExists = await this.prisma.user.findFirst({ where: { id } });
+    const userExists = await this.prisma.user.findFirst({
+      where: { id },
+      include: { cart: true },
+    });
 
     if (!userExists) throw new NotFoundException('User not exists.');
 
+    await this.prisma.cart.delete({ where: { id: userExists.cart.id } });
     return await this.prisma.user.delete({ where: { id } });
   }
 
