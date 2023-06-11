@@ -1,7 +1,7 @@
 import { IUsuarioEntidade } from '../../entidades/entidades/Usuario';
 import { IUsuarioRepositorio } from '../../repositorios/IUsuarioRepositorio';
 import { IUseCase } from '../IUseCase';
-import { IOpcoesPaginacao } from './interfaces/IOpcoesPaginacao';
+import { IOpcoesPaginacao } from '../IOpcoesPaginacao';
 
 export class BuscarUsuariosUseCase implements IUseCase<IUsuarioEntidade[]> {
   private usuariosRepositorio: IUsuarioRepositorio;

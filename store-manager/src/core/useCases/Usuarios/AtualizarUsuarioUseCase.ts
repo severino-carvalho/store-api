@@ -1,6 +1,6 @@
 import { UsuarioDto } from '../../dtos/Usuarios/UsuarioDTO';
 import { IUsuarioEntidade } from '../../entidades/entidades/Usuario';
-import { IGerenciadorSenhaService } from '../../ports/IManagerPasswordService';
+import { IGerenciadorSenhaService } from '../../ports/IGerenciadorSenhaService';
 import { IUsuarioRepositorio } from '../../repositorios/IUsuarioRepositorio';
 import { IUseCase } from '../IUseCase';
 

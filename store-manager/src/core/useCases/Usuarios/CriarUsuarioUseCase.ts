@@ -1,14 +1,14 @@
 import { UsuarioDto } from '../../dtos/Usuarios/UsuarioDTO';
 import { IUsuarioEntidade } from '../../entidades/entidades/Usuario';
 import { mapUsuarioDTOUsuarioEntidade } from '../../entidades/mappers/Usuario/mapUsuarioDTOUsuarioEntidade';
-import { IGerenciadorSenhaService } from '../../ports/IManagerPasswordService';
+import { IGerenciadorSenhaService } from '../../ports/IGerenciadorSenhaService';
 import { IUsuarioRepositorio } from '../../repositorios/IUsuarioRepositorio';
 import { IUseCase } from '../IUseCase';
 
 export class CriarUsuarioUseCase implements IUseCase<void> {
   private usuariosRepositorio: IUsuarioRepositorio;
   private senhaService: IGerenciadorSenhaService;
-  private mapUsuarioDTOUsuarioEntidade: mapUsuarioDTOUsuarioEntidade;
+  private mapDtoEntidade: mapUsuarioDTOUsuarioEntidade;
 
   constructor(
     usuariosRepositorio: IUsuarioRepositorio,
@@ -16,13 +16,13 @@ export class CriarUsuarioUseCase implements IUseCase<void> {
   ) {
     this.usuariosRepositorio = usuariosRepositorio;
     this.senhaService = gerenciadorSenhaService;
-    this.mapUsuarioDTOUsuarioEntidade = new mapUsuarioDTOUsuarioEntidade();
+    this.mapDtoEntidade = new mapUsuarioDTOUsuarioEntidade();
   }
 
   async execute(usuario: UsuarioDto): Promise<any> {
     if (!usuario) throw new Error('Usuário inválido.');
 
-    const entidade = this.mapUsuarioDTOUsuarioEntidade.mapFrom(usuario);
+    const entidade = this.mapDtoEntidade.mapFrom(usuario);
     entidade.validarUsuario();
 
     const usuarioExiste: IUsuarioEntidade =
