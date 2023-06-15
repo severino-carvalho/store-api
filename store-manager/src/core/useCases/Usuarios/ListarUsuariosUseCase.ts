@@ -3,7 +3,7 @@ import { IUsuarioRepositorio } from '../../repositorios/IUsuarioRepositorio';
 import { IUseCase } from '../IUseCase';
 import { IOpcoesPaginacao } from '../IOpcoesPaginacao';
 
-export class BuscarUsuariosUseCase implements IUseCase<IUsuarioEntidade[]> {
+export class ListarUsuariosUseCase implements IUseCase<IUsuarioEntidade[]> {
   private usuariosRepositorio: IUsuarioRepositorio;
 
   constructor(usuariosRepositorio: IUsuarioRepositorio) {
