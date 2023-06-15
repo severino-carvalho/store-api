@@ -1,4 +1,4 @@
-import { ProdutoDto } from '../dtos/Produtos/ProdutoDTO';
+import { ProdutoDto } from '../dtos/Produtos/ProdutoDto';
 import { IProdutoEntidade } from '../entidades/entidades/Produto';
 import { IRepositorio } from './IRepositorio';
 

@@ -1,4 +1,4 @@
-import { UsuarioDto } from '../../../dtos/Usuarios/UsuarioDTO';
+import { UsuarioDto } from '../../../dtos/Usuarios/UsuarioDto';
 import { IUsuarioEntidade, Usuario } from '../../entidades/Usuario';
 import { Mapper } from '../Mapper';
 

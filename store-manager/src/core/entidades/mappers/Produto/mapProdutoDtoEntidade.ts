@@ -1,4 +1,4 @@
-import { ProdutoDto } from '../../../dtos/Produtos/ProdutoDTO';
+import { ProdutoDto } from '../../../dtos/Produtos/ProdutoDto';
 import { IProdutoEntidade, Produto } from '../../entidades/Produto';
 import { Mapper } from '../Mapper';
 
@@ -10,6 +10,7 @@ export class mapProdutoDTOProdutoEntidade
 
     produto.nome = data.nome;
     produto.preco = data.preco;
+    produto.quantidade = data.quantidade;
 
     return produto;
   }
@@ -20,6 +21,7 @@ export class mapProdutoDTOProdutoEntidade
     produto.id = data.id;
     produto.nome = data.nome;
     produto.preco = data.preco;
+    produto.quantidade = data.quantidade;
 
     return produto;
   }

@@ -1,4 +1,4 @@
-import { UsuarioDto } from '../dtos/Usuarios/UsuarioDTO';
+import { UsuarioDto } from '../dtos/Usuarios/UsuarioDto';
 import { IUsuarioEntidade } from '../entidades/entidades/Usuario';
 import { IRepositorio } from './IRepositorio';
 
