@@ -1,12 +1,12 @@
 import { CarrinhoDto } from '../../../dtos/Carrinho/CarrinhoDto';
-import { Carrinho, ICarrinhoEntidade } from '../../entidades/Carrinho';
+import { CarrinhoEntidade, ICarrinhoEntidade } from '../../entidades/Carrinho';
 import { Mapper } from '../Mapper';
 
 export class mapCarrinhoDtoEntidade
   implements Mapper<CarrinhoDto, ICarrinhoEntidade>
 {
-  public mapFrom(data: CarrinhoDto): Carrinho {
-    const carrinho = new Carrinho();
+  public mapFrom(data: CarrinhoDto): CarrinhoEntidade {
+    const carrinho = new CarrinhoEntidade();
 
     carrinho.produtos = data.produtos;
 

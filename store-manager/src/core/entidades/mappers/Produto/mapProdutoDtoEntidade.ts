@@ -1,12 +1,12 @@
 import { ProdutoDto } from '../../../dtos/Produtos/ProdutoDto';
-import { IProdutoEntidade, Produto } from '../../entidades/Produto';
+import { IProdutoEntidade, ProdutoEntidade } from '../../entidades/Produto';
 import { Mapper } from '../Mapper';
 
 export class mapProdutoDTOProdutoEntidade
   implements Mapper<ProdutoDto, IProdutoEntidade>
 {
-  public mapFrom(data: ProdutoDto): Produto {
-    const produto = new Produto();
+  public mapFrom(data: ProdutoDto): ProdutoEntidade {
+    const produto = new ProdutoEntidade();
 
     produto.nome = data.nome;
     produto.preco = data.preco;

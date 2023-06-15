@@ -9,7 +9,7 @@ export interface IProdutoEntidade extends IEntidade {
   categories: string[];
 }
 
-export class Produto extends Entidade implements IProdutoEntidade {
+export class ProdutoEntidade extends Entidade implements IProdutoEntidade {
   nome: string;
   preco: number;
   quantidade: number;

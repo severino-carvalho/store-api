@@ -7,7 +7,7 @@ export interface IUsuarioEntidade extends IEntidade {
   permissoes: string[];
 }
 
-export class Usuario extends Entidade implements IUsuarioEntidade {
+export class UsuarioEntidade extends Entidade implements IUsuarioEntidade {
   nome: string;
   email: string;
   senha: string;

@@ -1,12 +1,12 @@
 import { UsuarioDto } from '../../../dtos/Usuarios/UsuarioDto';
-import { IUsuarioEntidade, Usuario } from '../../entidades/Usuario';
+import { IUsuarioEntidade, UsuarioEntidade } from '../../entidades/Usuario';
 import { Mapper } from '../Mapper';
 
 export class mapUsuarioDTOUsuarioEntidade
   implements Mapper<UsuarioDto, IUsuarioEntidade>
 {
-  public mapFrom(data: UsuarioDto): Usuario {
-    const usuario = new Usuario();
+  public mapFrom(data: UsuarioDto): UsuarioEntidade {
+    const usuario = new UsuarioEntidade();
 
     usuario.email = data.email;
     usuario.senha = data.senha;

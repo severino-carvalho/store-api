@@ -1,30 +1,31 @@
 import { UsuarioDto } from '../../dtos/Usuarios/UsuarioDto';
 import { IUsuarioEntidade } from '../../entidades/entidades/Usuario';
 import { IGerenciadorSenhaService } from '../../ports/IGerenciadorSenhaService';
-import { IUsuarioRepositorio } from '../../repositorios/IUsuarioRepositorio';
+import { IUsuarioRepositorio as IUsuarioRepo } from '../../repositorios/IUsuarioRepositorio';
 import { IUseCase } from '../IUseCase';
 
 export class AtualizarUsuarioUseCase implements IUseCase<void> {
-  private usuariosRepositorio: IUsuarioRepositorio;
+  private usuariosRepo: IUsuarioRepo;
   private senhaService: IGerenciadorSenhaService;
 
   constructor(
-    usuariosRepositorio: IUsuarioRepositorio,
+    usuariosRepo: IUsuarioRepo,
     gerenciadorSenhaService: IGerenciadorSenhaService,
   ) {
-    this.usuariosRepositorio = usuariosRepositorio;
+    this.usuariosRepo = usuariosRepo;
     this.senhaService = gerenciadorSenhaService;
   }
 
   async execute(usuario: UsuarioDto, id: number): Promise<any> {
     if (!id) throw new Error('Usuário não encontrado.');
 
-    const usuario_id: IUsuarioEntidade =
-      await this.usuariosRepositorio.buscaPorId(Number(id));
+    const usuario_id: IUsuarioEntidade = await this.usuariosRepo.buscaPorId(
+      Number(id),
+    );
     if (!usuario_id) throw new Error('Usuário não encontrado');
 
     const usuario_email: IUsuarioEntidade =
-      await this.usuariosRepositorio.buscaPorEmail(usuario.email);
+      await this.usuariosRepo.buscaPorEmail(usuario.email);
     if (usuario_email && usuario_email.id != id)
       throw new Error('Email já utilizados.');
 
@@ -37,6 +38,6 @@ export class AtualizarUsuarioUseCase implements IUseCase<void> {
       usuario.senha = usuario_id.senha;
     }
 
-    return await this.usuariosRepositorio.atualizar(usuario, id);
+    return await this.usuariosRepo.atualizar(usuario, id);
   }
 }

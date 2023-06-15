@@ -2,19 +2,19 @@ import { UsuarioDto } from '../../dtos/Usuarios/UsuarioDto';
 import { IUsuarioEntidade } from '../../entidades/entidades/Usuario';
 import { mapUsuarioDTOUsuarioEntidade } from '../../entidades/mappers/Usuario/mapUsuarioDtoEntidade';
 import { IGerenciadorSenhaService } from '../../ports/IGerenciadorSenhaService';
-import { IUsuarioRepositorio } from '../../repositorios/IUsuarioRepositorio';
+import { IUsuarioRepositorio as IUsuarioRepo } from '../../repositorios/IUsuarioRepositorio';
 import { IUseCase } from '../IUseCase';
 
 export class CriarUsuarioUseCase implements IUseCase<void> {
-  private usuariosRepositorio: IUsuarioRepositorio;
+  private usuariosRepo: IUsuarioRepo;
   private senhaService: IGerenciadorSenhaService;
   private mapDtoEntidade: mapUsuarioDTOUsuarioEntidade;
 
   constructor(
-    usuariosRepositorio: IUsuarioRepositorio,
+    usuariosRepo: IUsuarioRepo,
     gerenciadorSenhaService: IGerenciadorSenhaService,
   ) {
-    this.usuariosRepositorio = usuariosRepositorio;
+    this.usuariosRepo = usuariosRepo;
     this.senhaService = gerenciadorSenhaService;
     this.mapDtoEntidade = new mapUsuarioDTOUsuarioEntidade();
   }
@@ -26,7 +26,7 @@ export class CriarUsuarioUseCase implements IUseCase<void> {
     entidade.validarUsuario();
 
     const usuarioExiste: IUsuarioEntidade =
-      await this.usuariosRepositorio.buscaPorEmail(usuario.email);
+      await this.usuariosRepo.buscaPorEmail(usuario.email);
 
     if (usuarioExiste) throw new Error('Email já utilizado.');
 
@@ -36,6 +36,6 @@ export class CriarUsuarioUseCase implements IUseCase<void> {
     );
     usuario.senha = senhaEncriptada;
 
-    return await this.usuariosRepositorio.criar(usuario);
+    return await this.usuariosRepo.criar(usuario);
   }
 }

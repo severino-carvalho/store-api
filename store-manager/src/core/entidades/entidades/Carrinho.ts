@@ -1,12 +1,12 @@
 import { Entidade, IEntidade } from '../Entidade';
-import { Produto } from './Produto';
+import { ProdutoEntidade } from './Produto';
 
 export interface ICarrinhoEntidade extends IEntidade {
-  produtos: Produto[];
+  produtos: ProdutoEntidade[];
   usuario_id: string;
 }
 
-export class Carrinho extends Entidade implements ICarrinhoEntidade {
-  produtos: Produto[];
+export class CarrinhoEntidade extends Entidade implements ICarrinhoEntidade {
+  produtos: ProdutoEntidade[];
   usuario_id: string;
 }
