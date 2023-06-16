@@ -1,4 +1,4 @@
-export class IEntidade {
+export interface IEntidade {
   id: number;
   created_at: string;
   updated_at: string;

@@ -72,9 +72,9 @@ export class UsuariosController {
   }
 
   @Get()
-  async buescarUsuariosEmail(@Query() query: any) {
+  async buescarUsuariosEmail(@Body('email') email: string) {
     try {
-      return await this.buscarUsuarioEmailUseCase.execute(query.email);
+      return await this.buscarUsuarioEmailUseCase.execute(email);
     } catch (err) {
       throw new BadRequestException(err.message);
     }

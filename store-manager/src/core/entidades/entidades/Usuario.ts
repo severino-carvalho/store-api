@@ -23,7 +23,7 @@ export class UsuarioEntidade extends Entidade implements IUsuarioEntidade {
       throw new Error('Email e/ou senha inválidos');
     }
 
-    if (this.nome === '' || this.nome == null) {
+    if (this.nome == '' || this.nome == null) {
       throw new Error('Existem campos a serem preenchidos.');
     }
   }

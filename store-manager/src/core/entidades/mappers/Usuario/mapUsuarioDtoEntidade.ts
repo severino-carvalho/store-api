@@ -8,6 +8,7 @@ export class mapUsuarioDTOUsuarioEntidade
   public mapFrom(data: UsuarioDto): UsuarioEntidade {
     const usuario = new UsuarioEntidade();
 
+    usuario.nome = data.nome;
     usuario.email = data.email;
     usuario.senha = data.senha;
 
@@ -18,6 +19,7 @@ export class mapUsuarioDTOUsuarioEntidade
     const usuario = new UsuarioDto();
 
     usuario.id = data.id;
+    usuario.nome = data.nome;
     usuario.email = data.email;
     usuario.senha = data.senha;
 

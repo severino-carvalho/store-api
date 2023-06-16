@@ -4,15 +4,19 @@ import { UsuarioDto } from 'src/core/dtos/Usuarios/UsuarioDto';
 import { IUsuarioEntidade } from 'src/core/entidades/entidades/Usuario';
 import { IUsuarioRepositorio } from 'src/core/repositorios/IUsuarioRepositorio';
 import { PrismaService } from './prisma.service';
+import { QueryPaginacao } from 'src/core/repositorios/IRepositorio';
 
 @Injectable()
 export class UsuarioPrismaRepo implements IUsuarioRepositorio {
   constructor(private readonly prisma: PrismaService) {}
 
-  async buscarTodos(query): Promise<any> {
+  async buscarTodos(query: QueryPaginacao): Promise<any> {
     const users = await this.prisma.usuario.findMany({
-      skip: Number(query.skip),
-      take: Number(query.take),
+      skip: Number(query.offset),
+      take: Number(query.limite),
+      include: {
+        carrinho: true,
+      },
     });
 
     const quantidade = await this.prisma.usuario.count();
@@ -46,6 +50,9 @@ export class UsuarioPrismaRepo implements IUsuarioRepositorio {
         carrinho: {
           create: {},
         },
+      },
+      include: {
+        carrinho: true,
       },
     });
 
