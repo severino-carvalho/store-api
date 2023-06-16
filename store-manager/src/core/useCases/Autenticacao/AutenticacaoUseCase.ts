@@ -25,7 +25,7 @@ export class AuthenticationUseCase
 
     if (!usuario_existente) throw new Error('Credenciais inválidas.');
 
-    const senha_valida = this.gerenciadorSenhaService.compareSync(
+    const senha_valida = this.gerenciadorSenhaService.compararSync(
       usuario.senha,
       usuario_existente.senha,
     );

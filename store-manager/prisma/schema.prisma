@@ -6,88 +6,90 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
 }
 
-model User {
+model Usuario {
+  id         Int          @id @default(autoincrement())
+  nome       String       @map("name")
+  email      String       @unique
+  senha      String
+  permissoes Permissoes[] @default([LER])
+  created_at DateTime     @default(now())
+  updated_at DateTime     @updatedAt
+
+  carrinho Carrinho?
+
+  @@map("usuarios")
+}
+
+model Produto {
   id         Int      @id @default(autoincrement())
-  name       String
-  email      String   @unique
-  password   String
+  nome       String
+  preco      Float
+  quantidade Int
+  descricao  String
+  image      String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  cart Cart?
+  categorias CategoriasEmProdutos[]
 
-  role Role @default(USER)
+  carrinho ProdutosEmCarrinho[]
 
-  @@map("users")
+  @@map("produtos")
 }
 
-model Product {
-  id          Int      @id @default(autoincrement())
-  name        String
-  price       Float
-  description String?
-  image       String?
-  created_at  DateTime @default(now())
-  updated_at  DateTime @updatedAt
-
-  categories CategoriesOnProducts[]
-
-  carts ProductsOnCarts[]
-
-  @@map("products")
-}
-
-model Category {
+model Categoria {
   id         Int                    @id @default(autoincrement())
   name       String
   created_at DateTime               @default(now())
   updated_at DateTime               @updatedAt
-  products   CategoriesOnProducts[]
+  produtos   CategoriasEmProdutos[]
 
-  @@map("categories")
+  @@map("categorias")
 }
 
-model CategoriesOnProducts {
-  category_id Int
-  product_id  Int
-  product     Product  @relation(fields: [product_id], references: [id])
-  category    Category @relation(fields: [category_id], references: [id])
+model CategoriasEmProdutos {
+  categoria_id Int
+  produto_id   Int
+  produto      Produto   @relation(fields: [produto_id], references: [id])
+  categoria    Categoria @relation(fields: [categoria_id], references: [id])
 
-  @@id([category_id, product_id])
-  @@map("categories_on_product")
+  @@id([categoria_id, produto_id])
+  @@map("categorias_em_produtos")
 }
 
-model Cart {
+model Carrinho {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  products ProductsOnCarts[]
+  produtos ProdutosEmCarrinho[]
 
-  user_id Int  @unique
-  user    User @relation(fields: [user_id], references: [id])
+  usuario_id Int     @unique @map("usiario_id")
+  usuario    Usuario @relation(fields: [usuario_id], references: [id])
 
-  @@map("cart")
+  @@map("carrinho")
 }
 
-model ProductsOnCarts {
-  product_id Int
-  product    Product @relation(fields: [product_id], references: [id])
+model ProdutosEmCarrinho {
+  produto_id Int
+  produto    Produto @relation(fields: [produto_id], references: [id])
 
-  cart_id Int
-  cart    Cart @relation(fields: [cart_id], references: [id])
+  carrinho_id Int
+  carrinho    Carrinho? @relation(fields: [carrinho_id], references: [id])
 
-  quantity Int @default(1)
+  quantidade Int @default(1)
 
-  @@id([product_id, cart_id])
-  @@map("product_on_carts")
+  @@id([produto_id, carrinho_id])
+  @@map("produto_em_carrinho")
 }
 
-enum Role {
-  USER
-  ADMIN
+enum Permissoes {
+  CRIAR
+  LER
+  ATUALIZAR
+  DELETAR
 }

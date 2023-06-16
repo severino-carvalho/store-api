@@ -2,7 +2,7 @@ import { ICategoriaEntidade } from 'src/core/entidades/entidades/Categoria';
 import { ICategoriaRepositorio as ICategoriaRepo } from 'src/core/repositorios/ICategoriaRepositorio';
 import { IUseCase } from '../IUseCase';
 
-export class BuscarUsuarioIdUseCase implements IUseCase<void> {
+export class BuscarCategoriaIdUseCase implements IUseCase<void> {
   private categoriaRepo: ICategoriaRepo;
 
   constructor(categoriaRepo: ICategoriaRepo) {

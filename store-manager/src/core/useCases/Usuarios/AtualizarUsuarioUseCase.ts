@@ -29,7 +29,7 @@ export class AtualizarUsuarioUseCase implements IUseCase<void> {
     if (usuario_email && usuario_email.id != id)
       throw new Error('Email já utilizados.');
 
-    if (!this.senhaService.compareSync(usuario.senha, usuario_id.senha)) {
+    if (!this.senhaService.compararSync(usuario.senha, usuario_id.senha)) {
       usuario.senha = this.senhaService.hashSync(
         usuario.senha,
         Number(process.env.SALT_CRYPT),

@@ -1,5 +1,5 @@
-import { ProdutoDto } from 'src/core/dtos/Produtos/ProdutoDTO';
-import { mapProdutoDTOProdutoEntidade } from 'src/core/entidades/mappers/Produto/mapProdutoDTOProdutoEntidade';
+import { ProdutoDto } from '../../../core/dtos/Produtos/ProdutoDto';
+import { mapProdutoDTOProdutoEntidade } from '../../../core/entidades/mappers/Produto/mapProdutoDtoEntidade';
 import { IProdutoRepositorio } from '../../repositorios/IProdutoRepositorio';
 import { IUseCase } from '../IUseCase';
 

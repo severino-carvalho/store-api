@@ -1,6 +1,6 @@
-import { ProdutoDto } from 'src/core/dtos/Produtos/ProdutoDTO';
-import { IProdutoEntidade } from 'src/core/entidades/entidades/Produto';
-import { IProdutoRepositorio as IProdutoRepo } from 'src/core/repositorios/IProdutoRepositorio';
+import { ProdutoDto } from '../../../core/dtos/Produtos/ProdutoDto';
+import { IProdutoEntidade } from '../../../core/entidades/entidades/Produto';
+import { IProdutoRepositorio as IProdutoRepo } from '../../../core/repositorios/IProdutoRepositorio';
 import { IUseCase } from '../IUseCase';
 
 export class AtualizarProdutoUseCase implements IUseCase<void> {

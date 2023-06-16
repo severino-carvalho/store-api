@@ -13,8 +13,8 @@ export class ListarUsuariosUseCase implements IUseCase<IUsuarioEntidade[]> {
   async execute(options: IOpcoesPaginacao): Promise<any> {
     const { offset, limite } = options;
     const { data, quantidade } = await this.usuariosRepositorio.buscarTodos({
-      skip: offset,
-      take: limite,
+      offset: offset,
+      limite: limite,
     });
 
     return { data, quantidade };

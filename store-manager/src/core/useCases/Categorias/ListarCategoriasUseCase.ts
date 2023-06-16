@@ -13,8 +13,8 @@ export class ListarCategoriasUseCase implements IUseCase<ICarrinhoEntidade[]> {
   async execute(options: IOpcoesPaginacao): Promise<any> {
     const { offset, limite } = options;
     const { data, quantidade } = await this.categoriaRepo.buscarTodos({
-      skip: offset,
-      take: limite,
+      offset: offset,
+      limite: limite,
     });
 
     return { data, quantidade };

@@ -1,8 +1,8 @@
-type QueryPaginacao = {
-  skip: number;
-  take: number;
+export type QueryPaginacao = {
+  offset: number;
+  limite: number;
 };
 
 export interface IRepositorio<TEntity> {
-  buscarTodos(query?: QueryPaginacao, empresa_id?: number): Promise<any>;
+  buscarTodos(query?: QueryPaginacao): Promise<any>;
 }

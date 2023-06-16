@@ -4,7 +4,7 @@ export interface IProdutoEntidade extends IEntidade {
   nome: string;
   preco: number;
   quantidade: number;
-  description: string;
+  descricao: string;
   image: string;
   categories: string[];
 }
@@ -13,7 +13,7 @@ export class ProdutoEntidade extends Entidade implements IProdutoEntidade {
   nome: string;
   preco: number;
   quantidade: number;
-  description: string;
+  descricao: string;
   image: string;
   categories: string[];
 

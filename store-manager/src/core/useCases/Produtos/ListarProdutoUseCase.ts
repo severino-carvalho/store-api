@@ -12,8 +12,8 @@ export class ListarProdutosUseCase implements IUseCase<IProdutoRepositorio[]> {
   async execute(options: IOpcoesPaginacao): Promise<any> {
     const { offset, limite } = options;
     const { data, quantidade } = await this.produtosRepo.buscarTodos({
-      skip: offset,
-      take: limite,
+      offset: offset,
+      limite: limite,
     });
 
     return { data, quantidade };
