@@ -1,7 +1,10 @@
+import MainLayout from "@/components/Layouts/BaseLayout";
+import Navbar from "@/components/Navbar/Navbar";
+
 export default function Dashboard() {
   return (
-    <main>
-      <h1>Hello World</h1>
-    </main>
+    <MainLayout>
+      <main className=""></main>
+    </MainLayout>
   );
 }

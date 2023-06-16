@@ -1,4 +1,3 @@
-import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import 'dotenv/config';
@@ -14,7 +13,6 @@ async function bootstrap() {
     .setTitle('Store API')
     .setDescription('The Store API')
     .setVersion('0.0.1')
-    .setBasePath('/api')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
@@ -24,14 +22,6 @@ async function bootstrap() {
       operationsSorter: 'alpha',
     },
   });
-
-  app.useGlobalPipes(
-    new ValidationPipe({
-      transform: true,
-      whitelist: true,
-      forbidNonWhitelisted: true,
-    }),
-  );
 
   await app.listen(process.env.PORT || 3000);
 }
